@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/catkin_ws/devel
+
+Name: robot_slam
+Description: Description of robot_slam
+Version: 0.0.0
+Cflags: -I/home/ubuntu/catkin_ws/src/ros-slam-nav/robot/robot_slam/include
+Libs: -L${prefix}/lib 
+Requires: roscpp sensor_msgs

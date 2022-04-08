@@ -1,0 +1,138 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<launch>
+
+  <!-- change this next line to include the launch file for your robot's hardware drivers: -->
+
+ <!-- <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+ <param name="/use_sim_time" value="$(arg simulation)"/> -->
+
+  <!-- important generally, but specifically utilised by the current app manager -->
+  <!-- <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
+  <param name="robot/type" value="turtlebot"/> -->
+
+
+  <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find agv_tb_description)/urdf/agv_tb.urdf.xacro'"/>
+    <param name="publish_frequency" type="double" value="5.0" />
+  </node> -->
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find agv_tb_description)/urdf/agv_tb.urdf.xacro" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="false"/>  
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find agv_tb_description)/urdf/agv_tb.urdf.xacro'"/>
+    <param name="publish_frequency" type="double" value="5.0" />
+  </node>
+
+
+  <!-- <rosparam param="base_width">0.3</rosparam>
+  <rosparam param="ticks_meter">4897</rosparam> -->
+
+  <!-- <node name="controller" pkg="pid" type="controller" ns="left_wheel" output="screen" >
+      <param name="Kp" value="0.5" />
+      <param name="Ki" value="10.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="2.5" />
+      <param name="lower_limit" value="-2.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="cutoff_frequency" value="15" />
+      <remap from="setpoint" to="/lwheel_vtarget" />
+      <remap from="control_effort" to="/left_wheel_dac"/>
+      <remap from="state" to="/lwheel_velocity" />
+      <remap from="pid_enable" to="/pid_enable" />
+  </node> -->
+
+  <!-- <node name="controller" pkg="pid" type="controller" ns="right_wheel">
+      <param name="Kp" value="0.5" />
+      <param name="Ki" value="10.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="2.5" />
+      <param name="lower_limit" value="-2.5" />
+      <param name="windup_limit" value="1.5" />
+      <param name="cutoff_frequency" value="15" />
+      <remap from="setpoint" to="/rwheel_vtarget" />
+      <remap from="control_effort" to="/right_wheel_dac" />
+      <remap from="state" to="/rwheel_velocity" />
+      <remap from="pid_enable" to="/pid_enable" />
+  </node> -->
+
+  <!-- <node name="fx5u_node" pkg="agv_tb_bringup" type="fx5u_node.py" >
+      <param name="ip" value="192.168.10.250" type="string"/>
+      <param name="port" value="502" />
+      <param name="rate" value="50.0" />
+      <param name="base_frame_id" value="base_footprint" type="string"/>
+      <param name="odom_frame_id" value="enc_odom" type="string" />
+
+      <param name="base_width" value="0.3" />
+      <param name="ticks_meter" value="9794" />
+      <rosparam file="$(find agv_tb_bringup)/param/plc_config.yaml" command="load" />
+  </node> -->
+
+  <!-- <node name="diff_tf" pkg="agv_tb_bringup" type="diff_tf.py" output="screen">
+
+
+      <param name="rate" value="20.0" />
+      <param name="ticks_meter" value="4897" />
+      <param name="base_width" value="0.3" />
+  </node> -->
+  <!-- <node name="agv_tb_hwinterface_node" pkg="agv_tb_bringup" 
+          type="agv_tb_bringup_node"/> -->
+
+  <!-- <rosparam file="$(find agv_tb_bringup)/param/agv_diff_controller.yaml" co<rosparam file="$(find agv_tb_bringup)/param/agv_diff_controller.yaml" command="load" />
+  <rosparam file="$(find agv_tb_bringup)/param/agv_velocity_controller.yaml" command="load"/> -->
+    
+  <!--<node name="controller_spawner" pkg="controller_manager" type="spawner"
+     mmand="load" />
+  <rosparam file="$(find agv_tb_bringup)/param/agv_velocity_controller.yaml" command="load"/>
+    
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+      respawn="false" output="screen" ns="/agv_controller"  args="agv_base_controller joint_state_controller rightWheel_velocity_controller leftWheel_velocity_controller"/> -->
+
+  <!-- <node pkg="agv_tb_bringup" type="twist_to_motors.py" name="twist_to_motors" output="screen"/> -->
+<!--
+   <node pkg="agv_tb_bringup" type="quat_to_euler.py" name="quat_to_euler">
+    <remap from="odom"  to="enc_odom"/>
+  </node> -->
+
+
+  <!-- oleilidar LB-1BS -->
+
+  <include file="$(find olelidar)/launch/olelidar.launch">
+    <arg name="device_ip" value="192.168.11.223" />
+    <arg name="frame_id" value="olelidar" />
+    <!-- <remap from="olelidar/scan" to="scan" /> -->
+    <!-- <arg name="min_ang" value="-2.1" />
+    <arg name="max_ang" value="2.1" /> -->
+  </include>
+
+  <!--include file="$(find sick_safetyscanners)/launch/sick_safetyscanners.launch">
+
+    <arg name="sensor_ip" value="192.168.10.190" />
+    <arg name="host_ip" value="" />
+    <arg name="frame_id" value="nanoscan3_link" />
+    <arg name="angle_start" value="-1.25" />
+    <arg name="angle_end" value="1.60" />
+
+  </include-->
+
+  <!-- <include file="$(find wit_node)/launch/wit.launch">
+    <arg name="port" value="/dev/ttyUSB0" />
+  </include> -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="lidar_to_baselink"
+        args='0.42 -0.0 0.05 0.0 0.0 0.0 "base_footprint" "olelidar"'
+        required="true"/>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+        <remap from="odometry/filtered" to="odom" />
+        <rosparam command="load" file="$(find agv_tb_bringup)/param/agv_localization.yaml"/>
+  </node>
+  <!-- args='0.42 -0.24 0.05 0.0 0.0 0.0 "base_footprint" "olelidar"' -->
+  <!-- <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="port" value="9090"/>
+  </include> -->
+
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find agv_tb_description)/rviz/model.rviz" /> -->
+
+</launch>

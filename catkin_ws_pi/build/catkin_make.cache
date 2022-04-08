@@ -1,0 +1,2 @@
+ros-slam-nav/robot/robot_bringup:ros-slam-nav/robot/robot_description:ros-slam-nav/robot/robot_explorer:ros-slam-nav/robot/robot_navigation:ros-slam-nav/robot/robot_slam:ros-slam-nav/robot/robot_teleop:ros-slam-nav/robot_ml/robot_dqn:ros-slam-nav/robot_msgs:ros-slam-nav/robot_rtabmap:ros-slam-nav/robot_simulations/robot_gazebo:ros_mpu6050_node
+-DCATKIN_DEVEL_PREFIX=/home/ubuntu/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/catkin_ws/install -G Unix Makefiles
